@@ -1,5 +1,5 @@
 
-set :host , "pi@192.168.0.9"
+set :host , "pi@192.168.0.6"
 task :deploy do
 	run_locally do
 		execute 'mvn clean package'

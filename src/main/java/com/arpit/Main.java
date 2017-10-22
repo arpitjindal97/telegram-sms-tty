@@ -11,17 +11,18 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 
-public class Main
-{
+public class Main {
 
     static Logger log = LoggerFactory.getLogger(Main.class.getName());
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
 
         RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
         String pid = rt.getName();
         MDC.put("PID", pid.substring(0, pid.indexOf("@")));
+
+        log.info("Fetching details from database.json");
+        Database.getDetails(args[0]);
 
         log.info("Starting bot");
 
@@ -30,23 +31,13 @@ public class Main
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
         log.info("Registering Bots");
-        try
-        {
+        try {
             botsApi.registerBot(new MySMSBot());
-        } catch (TelegramApiException e)
-        {
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
 
-        log.info("Fetching details from database.json");
-        try
-        {
-            Database.getDetails(args[0]);
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
 
-        //WebController.startServer();
+
     }
 }
